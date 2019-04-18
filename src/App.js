@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 
-function Todo({todo, index, toggleTodoCompletion}) {
+function Todo({todo, index, toggleTodoCompletion, removeTodo}) {
   return (
       <div className="todo"
            style={{ textDecoration: todo.isCompleted ? "line-through": ""}}
@@ -11,6 +11,7 @@ function Todo({todo, index, toggleTodoCompletion}) {
           <button  className="button3" onClick={() => toggleTodoCompletion(index, todo.isCompleted)}>
             {todo.isCompleted ? "In complete": "Complete"}
           </button>
+          <button onClick={ () => removeTodo(index)}>X</button>
         </div>
       </div>
   );
@@ -62,6 +63,10 @@ function App() {
     }
     setTodos(newTodos);
   }
+  const removeTodo = index => {
+    const newTodos = todos.filter(todo => todo !== todos[index]);
+    setTodos(newTodos);
+  }
   return (
       <div className="app">
         <div className="todo-list">
@@ -71,6 +76,7 @@ function App() {
                   index = {index}
                   todo= {todo}
                   toggleTodoCompletion = {toggleTodoCompletion}
+                  removeTodo = {removeTodo}
               />
           ))}
           <TodoForm addTodo={addTodo} />
