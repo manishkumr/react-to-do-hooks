@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
 import './App.css';
 
-function Todo({todo, index}) {
+function Todo({todo, index, toggleTodoCompletion}) {
   return (
-      <div className="todo">
+      <div className="todo"
+           style={{ textDecoration: todo.isCompleted ? "line-through": ""}}
+      >
         {todo.text}
+        <div>
+          <button  className="button3" onClick={() => toggleTodoCompletion(index, todo.isCompleted)}>
+            {todo.isCompleted ? "In complete": "Complete"}
+          </button>
+        </div>
       </div>
-  )
+  );
 }
 function TodoForm({addTodo}) {
   const [value, setValue] = useState("");
@@ -46,6 +53,15 @@ function App() {
     const newTodos = [...todos, {text}];
     setTodos(newTodos)
   }
+  const toggleTodoCompletion = (index, status) => {
+    const newTodos = [...todos];
+    if (status){
+      newTodos[index].isCompleted = false
+    } else {
+      newTodos[index].isCompleted = true
+    }
+    setTodos(newTodos);
+  }
   return (
       <div className="app">
         <div className="todo-list">
@@ -54,6 +70,7 @@ function App() {
                   key = {index}
                   index = {index}
                   todo= {todo}
+                  toggleTodoCompletion = {toggleTodoCompletion}
               />
           ))}
           <TodoForm addTodo={addTodo} />
